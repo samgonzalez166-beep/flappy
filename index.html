@@ -1,28 +1,23 @@
 <!DOCTYPE html>
-
 <html lang="es">
-
 <head>
 
 <meta charset="UTF-8">
 
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="./manifest.json">
 
-<!-- IMPORTANTE PARA CELULARES -->
-
-<meta name ="viewport" content ="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <title>Kike volador</title>
 
 <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"></script>
 
-<link rel="apple-touch-icon" href="icono1.png">
-<meta name="apple-mobile-web-app-capable" content="Kike">
+<link rel="apple-touch-icon" href="Icono1.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Kike Volador">
 
 <style>
-
 body{
 margin:0;
 padding:0;
@@ -33,35 +28,29 @@ align-items:center;
 height:100vh;
 overflow:hidden;
 }
-
-/* Hace que el canvas se ajuste al celular */
 canvas{
 max-width:100%;
 height:auto;
 }
-
 </style>
 
 </head>
 
 <body>
-<!-- Eliminamos el directorio -->
-<script src ="inicio.js"></script> 
-<script src ="juego.js"></script>
-<script src ="gameover.js"></script>
-<script src ="main.js"></script>
 
-<!-- Agregamos el service worker -->
+<script src="./inicio.js"></script> 
+<script src="./juego.js"></script>
+<script src="./gameover.js"></script>
+<script src="./main.js"></script>
+
 <script> 
 if ("serviceWorker" in navigator) {
-  if ("serviceWorker" in navigator) {
-     window.addEventListener("load", () => {
-       navigator.serviceWorker.register("sw.js")
-         .then((registration) => console.log("Service Worker registrado", registration))
-         .catch((error) => console.log("Error al registrar el Service Worker:", error));
-     });
-    }
-  }
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then((registration) => console.log("Service Worker registrado", registration))
+      .catch((error) => console.log("Error:", error));
+  });
+}
 </script>
 
 </body>
