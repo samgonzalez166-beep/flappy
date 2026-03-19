@@ -6,7 +6,7 @@ constructor(){
 
 
 preload(){
-    this.load.spritesheet("bird2", "assets/bird2.png", {
+    this.load.spritesheet("bird2", "bird2.png", {
         frameWidth: 95,  // ancho de cada sprite
         frameHeight: 120,// alto de cada sprite
            spacing: 2,   // espacio ENTRE sprites
