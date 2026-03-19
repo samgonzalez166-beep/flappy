@@ -9,7 +9,7 @@ preload(){
     this.load.image("bird","bird2.png");
     this.load.image("pipe","pipe.png");
     this.load.image("jugar","play.jpg");
-    this.load.image("reiniciar","/reiniciar.jpg");
+    this.load.image("reiniciar","reiniciar.jpg");
 }
 
 create(){
