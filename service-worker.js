@@ -1,71 +1,55 @@
-const CACHE_NAME = "mi-juego-cache-v1";
+// Nombre de la caché
+const CACHE = "flappy-cache-v2";
+//CARGA LOS ARCHIVOS 
+const archivos = [
+"/",
+"/index.html",
+"/main.js",
+"/carga.js",
+"/inicio.js",
+"/juego.js",
+"/gameover.js",
 
-// archivos importantes del juego
-const FILES_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/main.js",
-  "/inicio.js",
-  "/juego.js",
-  "/gameover.js",
-  "/manifest.json",
-  "/bird2.png",
-  "/fondo2.jpg",
-  "/pipe.png",  
+"/fondo2.jpg",
+"/bird2.png",
+"/pipe.png",
+
+"/reiniciar.jpg",
   "/play.jpg",
-  "/reiniciar.jpg",
-  "/Icono1.png",
-  "/Icono2.png", 
-  "https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.js"
+  
+"/icono1.png",
+  "/icono2.png"
 ];
 
-// instalar el service worker
-//Evento que se ejecuta una sola vez, cuando el Service Worker se instala
-//Muestra en consola un mensaje en consola indicando que el Service Worker se ha instalado
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
-  );
-  self.skipWaiting();//Activa el inmediatamente del nuevo Service Worker, sin esperar a que el anterior se cierre
+
+event.waitUntil(
+caches.open(CACHE)
+.then(cache => cache.addAll(archivos))
+);
+
+self.skipWaiting();
+
 });
 
-// activar el service worker
 self.addEventListener("activate", (event) => {
 
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key); //Borramos el cache antiguo
-          }
-        })
-      );
-    })
-  );
-  self.clients.claim(); //Controlamos la app sin recargar
+event.waitUntil(
+caches.keys().then(keys => {
+return Promise.all(
+keys.filter(key => key !== CACHE)
+.map(key => caches.delete(key))
+);
+})
+);
+
 });
 
-// interceptar peticiones
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
 
-      // si existe en cache, lo usa
-      if (response) {
-        return response;
-      }
+event.respondWith(
+caches.match(event.request)
+.then(res => res || fetch(event.request))
+);
 
-      // si no existe, lo descarga
-      return fetch(event.request)
-        .then((networkResponse) => {
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, networkResponse.clone());
-            return networkResponse;
-          });
-        })
-    })
-  );
 });
